@@ -13,7 +13,7 @@ import {
   AsyncStorage,
   TouchableOpacity,
 } from 'react-native';
-// import { FlatList } from 'react-native-gesture-handler';
+import { SearchBar } from 'react-native-elements'
 
 const STATUSBAR_HEIGHT = Platform.OS == 'ios' ? 20 : StatusBar.currentHeight;
 const TODO = "@todoapp.todo"
@@ -98,17 +98,18 @@ export default class App extends React.Component {
     if (filterText !== "") {
       todo = todo.filter(t => t.title.includes(filterText))
     }
+    const platform = Platform.OS == 'ios' ? 'ios' : 'android'
 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <View style={styles.filter}>
-          <TextInput
-            onChangeText={ (text) => this.setState({ filterText: text }) }
-            value={ this.state.filterText }
-            style={ styles.inputText }
-            placeholder="Type filter text"
-          />
-        </View>
+        <SearchBar
+          platform={ platform }
+          cancelButtonTitile="Cancel"
+          onChangeText={ (text) => this.setState({ filterText: text }) }
+          onClear={ () => this.setState({ filterText: "" }) }
+          value={ this.state.filterText }
+          placeholder="Type filter text"
+        />
 
         <ScrollView style={styles.todolist}>
           <FlatList data={todo}
