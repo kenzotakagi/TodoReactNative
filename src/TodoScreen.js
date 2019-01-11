@@ -27,7 +27,7 @@ const TODO = "@todoapp.todo"
 const TodoItem = (props) => {
   let icon = null
   if (props.done == true) {
-    icon = <Icon2 name = "done" />
+    icon = <Icon2 name="done" />
   }
   return (
     <TouchableOpacity onPress={ props.onTapTodoItem }>
@@ -42,78 +42,73 @@ const TodoItem = (props) => {
 
 class TodoScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       inputText: "",
-      filterText: "",
-    }
+      filterText: ""
+    };
   }
 
   onAddItem = () => {
-    const title = this.state.inputText
+    const title = this.state.inputText;
     if (title == "") {
-      return
+      return;
     }
-    this.props.addTodo(title)
+    this.props.addTodo(title);
     this.setState({
       inputText: ""
-    })
-  }
+    });
+  };
 
-  onTapTodoItem = (todoItem) => {
-    this.props.toggleTodo(todoItem)
-  }
+  onTapTodoItem = todoItem => {
+    this.props.toggleTodo(todoItem);
+  };
 
   render() {
-    const filterText = this.state.filterText
-    let todo = this.props.todos
+    const filterText = this.state.filterText;
+    let todo = this.props.todos;
     if (filterText !== "") {
-      todo = todo.filter(t => t.title.includes(filterText))
+      todo = todo.filter(t => t.title.includes(filterText));
     }
-    const platform = Platform.OS == 'ios' ? 'ios' : 'android'
+    const platform = Platform.OS == "ios" ? "ios" : "android";
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <KeyboardAvoidingView style={ styles.container } behavior="padding">
         <SearchBar
           platform={ platform }
           cancelButtonTitile="Cancel"
-          onChangeText={ (text) => this.setState({ filterText: text }) }
+          onChangeText={ text => this.setState({ filterText: text }) }
           onClear={ () => this.setState({ filterText: "" }) }
           value={ this.state.filterText }
           placeholder="Type filter text"
         />
 
-        <ScrollView style={styles.todolist}>
-          <FlatList data={todo}
-            extraData={this.state}
-            renderItem={({ item }) =>
+        <ScrollView style={ styles.todolist }>
+          <FlatList
+            data={ todo }
+            extraData={ this.state }
+            renderItem={ ({ item }) => (
               <TodoItem
-                title={item.title}
-                done={item.done}
-                onTapTodoItem={() => this.onTapTodoItem(item)}
+                title={ item.title }
+                done={ item.done }
+                onTapTodoItem={ () => this.onTapTodoItem(item) }
               />
-            }
-            keyExtractor={(item, index) => "todo_" + item.index}
+            ) }
+            keyExtractor={ (item, index) => "todo_" + item.index }
           />
         </ScrollView>
 
         <View style={ styles.input }>
           <Input
-            onChangeText={ (text) => this.setState({ inputText: text }) }
+            onChangeText={ text => this.setState({ inputText: text }) }
             value={ this.state.inputText }
             containerStyle={ styles.inputText }
           />
           <Button
-            icon={
-              <Icon
-                name='plus'
-                size={ 30 }
-                color='white'
-              />
-            }
-            onPress={this.onAddItem}
+            icon={ <Icon name="plus" size={ 30 } color="white" /> }
+            onPress={ this.onAddItem }
             title=""
-            buttonStyle={styles.inputButton}
+            buttonStyle={ styles.inputButton }
           />
         </View>
       </KeyboardAvoidingView>
@@ -155,8 +150,8 @@ const styles = StyleSheet.create({
       paddingBottom: 30,
       height: 80,
     }, {
-      height: 50,
-    }),
+        height: 50,
+      }),
     height: 70,
     flexDirection: 'row',
     paddingRight: 10,
